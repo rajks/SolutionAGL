@@ -1,0 +1,88 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>AGL</title>
+    <meta charset="utf-8"/>
+
+    <!-- CDN - Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+    <!-- CDN - jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <!-- CDN - Bootstrap -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+
+<div class="container">
+    <div class="row">
+        <div>
+            <h3>Following lists displays cat names based on owner gender</h3>
+        </div>
+        <div>
+            <div class="col-sm-4">
+                <h4>Male</h4>
+                <ul id="maleCats"></ul>
+            </div>
+            <div class="col-sm-4">
+                <h4>Female</h4>
+                <ul id="femaleCats"></ul>
+            </div>
+        </div>
+    </div>    
+</div>
+
+<script>
+    
+    $(document).ready(function () {
+
+        // Calling C# API using AJAX
+        $.ajax({
+            url: './api/GetData',
+            type: 'GET',
+            dataType: 'json',
+            success: function (data, textStatus, xhr) {
+
+                // Add cat names to list for owner gender - male
+                addToMaleCates(data.Male);
+
+                // Add cat names to list for owner gender - female
+                addToFemaleCates(data.Female);
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                console.log('Error in Operation');
+            }
+        });
+
+        function addToMaleCates(cats)
+        {
+            var result = [];
+
+            // Add to an array
+            $.each(cats, function (index, value) {
+                result.push('<li>' + value + '</li>');
+            });
+
+            // Update DOM once
+            $('#maleCats').append(result.join(""));
+        }
+
+        function addToFemaleCates(cats) {
+            var result = [];
+
+            // Add to an array
+            $.each(cats, function (index, value) {
+                result.push('<li>' + value + '</li>');
+            });
+
+            // Update DOM once
+            $('#femaleCats').append(result.join(""));
+        }
+
+    })
+
+</script>
+</body>
+</html>
