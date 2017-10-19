@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -41,6 +41,28 @@ namespace SolutionAGL.Tests
 
             // At least one male owner with pet as Cat
             Assert.AreNotEqual(0, petDataDisplay.Female.Length);
+        }
+
+        [TestMethod]
+        public async Task TestMaleSort()
+        {
+            var dataController = new GetDataController();
+            var petDataDisplay = await dataController.GetFormattedData();
+
+            var sorted = petDataDisplay.Male.OrderBy(s => s);
+
+            CollectionAssert.AreEqual(sorted.ToList(), petDataDisplay.Male.ToList());
+        }
+
+        [TestMethod]
+        public async Task TestFemaleSort()
+        {
+            var dataController = new GetDataController();
+            var petDataDisplay = await dataController.GetFormattedData();
+
+            var sorted = petDataDisplay.Female.OrderBy(s => s);
+
+            CollectionAssert.AreEqual(sorted.ToList(), petDataDisplay.Female.ToList());
         }
     }
 }
